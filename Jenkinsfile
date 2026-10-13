@@ -4,8 +4,7 @@ pipeline {
 
     environment {
         JAVA_HOME = 'C:/Program Files/Java/jdk-25.0.4.1'
-        PATH+JAVA = 'C:/Program Files/Java/jdk-25.0.4.1/bin'
-        PATH+MAVEN = 'C:/Program Files/apache-maven-3.9.16/bin'
+        MAVEN_CMD = 'C:/Program Files/apache-maven-3.9.16/bin/mvn.cmd'
     }
 
     stages {
@@ -17,13 +16,13 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn.cmd clean test'
+                bat '"%MAVEN_CMD%" clean test'
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn.cmd package -DskipTests'
+                bat '"%MAVEN_CMD%" package -DskipTests'
             }
         }
     }
