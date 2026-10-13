@@ -30,6 +30,10 @@ public class RegistrationService {
             return false;
         }
 
+        if (course.getCredits() < 1 || course.getCredits() > 6) {
+            return false;
+        }
+
         student.addRegistration(
                 course.getCourseCode(),
                 course.getCredits());
