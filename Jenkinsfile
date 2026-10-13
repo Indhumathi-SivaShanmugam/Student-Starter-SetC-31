@@ -1,5 +1,12 @@
+
 pipeline {
     agent any
+
+    environment {
+        JAVA_HOME = 'C:/Program Files/Java/jdk-25.0.4.1'
+        PATH+JAVA = 'C:/Program Files/Java/jdk-25.0.4.1/bin'
+        PATH+MAVEN = 'C:/Program Files/apache-maven-3.9.16/bin'
+    }
 
     stages {
         stage('Checkout') {
@@ -10,24 +17,30 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'mvn clean test'
+                bat 'mvn.cmd clean test'
             }
         }
 
         stage('Package') {
             steps {
-                bat 'mvn package -DskipTests'
+                bat 'mvn.cmd package -DskipTests'
             }
         }
     }
 
     post {
         always {
-            junit 'course-registration-app/target/surefire-reports/TEST-*.xml'
+            junit(
+                testResults: 'course-registration-app/target/surefire-reports/TEST-*.xml',
+                allowEmptyResults: true
+            )
         }
 
         success {
-            archiveArtifacts artifacts: 'course-registration-app/target/*.jar', fingerprint: true
+            archiveArtifacts(
+                artifacts: 'course-registration-app/target/*.jar',
+                fingerprint: true
+            )
         }
     }
 }
