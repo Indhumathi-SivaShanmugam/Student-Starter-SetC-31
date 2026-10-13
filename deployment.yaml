@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: course-registration-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: course-registration-nginx
+  template:
+    metadata:
+      labels:
+        app: course-registration-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:1.27
+          ports:
+            - containerPort: 80
